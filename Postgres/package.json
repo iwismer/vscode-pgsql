@@ -1,0 +1,25 @@
+{
+	"name": "postgres",
+	"description": "Postgres Language Support",
+	"version": "0.0.1",
+	"publisher": "JPT",
+	"engines": {
+		"vscode": "^0.10.1"
+	},
+	"categories": [
+		"Languages"
+	],
+	"contributes": {
+		"languages": [{
+			"id": "pgsql",
+			"aliases": ["PL/pgSQL (Postgres)", "pgsql"],
+			"extensions": [".pgsql"],
+			"configuration": "./pgsql.configuration.json"
+		}],
+		"grammars": [{
+			"language": "pgsql",
+			"scopeName": "source.plpgsql.postgres",
+			"path": "./syntaxes/pgsql.tmLanguage"
+		}]
+	}
+}
