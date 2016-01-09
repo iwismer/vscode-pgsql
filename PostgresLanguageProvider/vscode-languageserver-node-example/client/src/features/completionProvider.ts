@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 'use strict';
-
+import PgConstants from '../globalConstants';
 import { CompletionItem, TextDocument, Position, CompletionItemKind, CompletionItemProvider, CancellationToken } from 'vscode';
 
 
@@ -34,20 +34,17 @@ export default class PostgresqlCompletionItemProvider implements CompletionItemP
 	public triggerCharacters = ['.', ' '];
 	public excludeTokens = ['string', 'comment', 'numeric'];
 	public sortBy = [{ type: 'reference', partSeparator: '/' }];
+    private pgKeywords = [];
 
-/*
-	private client: ITypescriptServiceClient;
-	private config: IConfiguration;
-
-	constructor(client: ITypescriptServiceClient) {
-		this.client = client;
-		this.config = defaultConfiguration;
+	constructor() {
+        let constants = PgConstants.keywords;
+        for (var constIdx = 0; constIdx < constants.length; constIdx++) {
+            var element = this.createKeywordCompletionItem(constants[constIdx]);
+            this.pgKeywords.push(element);
+            
+        }
 	}
 
-	public setConfiguration(config: IConfiguration): void {
-		this.config = config;
-	}
-*/
     private createKeywordCompletionItem(keyword: string)
     {
         var item = new CompletionItem(keyword);
@@ -62,7 +59,7 @@ export default class PostgresqlCompletionItemProvider implements CompletionItemP
 		if (!filepath) {
 			return Promise.resolve<CompletionItem[]>([]);
 		}
-        var testKeywords = [ this.createKeywordCompletionItem( 'SELECT'),this.createKeywordCompletionItem( 'FROM')  ];
+        var testKeywords = this.pgKeywords;
 		return Promise.resolve<CompletionItem[]>(testKeywords); ;
 	}
 

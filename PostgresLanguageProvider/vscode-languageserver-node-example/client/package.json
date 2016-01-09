@@ -1,5 +1,5 @@
 {
-	"name": "language-client-example",
+	"name": "postgresql",
 	"description": "VSCode part of a language server",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
@@ -12,7 +12,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onLanguage:sql"
+		"onLanguage:pgsql"
 	],
 	"main": "./out/src/extension",
 	"contributes": {
@@ -26,7 +26,27 @@
 					"description": "Controls the maximum number of problems produced by the server."
 				}
 			}
-		}
+		},
+        "languages": [{
+			"id": "pgsql",
+			"extensions": [ ".pgsql" ],
+			"aliases": [ "PGSQL" ],
+			"configuration": "./pgsql.configuration.json"
+		}],
+        
+        "snippets": [
+			{
+				"language": "pgsql",
+				"path": "./snippets/pgsql_snippets.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "pgsql",
+                "scopeName": "source.plpgsql.postgres",
+                "path": "./syntaxes/pgsql.tmLanguage"
+			}
+        ]
 	},	
 	"scripts": {
 		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",

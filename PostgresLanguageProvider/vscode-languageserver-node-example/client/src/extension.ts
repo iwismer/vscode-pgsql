@@ -28,8 +28,8 @@ export function activate(context: ExtensionContext) {
 	
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
-		// Register the server for plain text documents
-		documentSelector: ['sql'],
+        
+		documentSelector: ['pgsql'],
 		synchronize: {
 			// Synchronize the setting section 'languageServerExample' to the server
 			configurationSection: 'languageServerExample',
@@ -44,8 +44,8 @@ export function activate(context: ExtensionContext) {
 	// Push the disposable to the context's subscriptions so that the 
 	// client can be deactivated on extension deactivation 
     
-   	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(['sql'], new PostgresqlCompletionItemProvider(), '.', ' ')); 
-	context.subscriptions.push(vscode.languages.registerSignatureHelpProvider('sql', new PostgresqlSignatureHelpProvider(), '(', ','));
+   	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(['pgsql'], new PostgresqlCompletionItemProvider(), '.', ' ')); 
+	context.subscriptions.push(vscode.languages.registerSignatureHelpProvider('pgsql', new PostgresqlSignatureHelpProvider(), '(', ','));
 
 	context.subscriptions.push(disposable);
     

@@ -1,0 +1,12 @@
+{
+    
+	"Select simple": {
+		"prefix": "sel",
+		"body": [
+			"SELECT ${tableName}.",
+			"FROM ${tableName}",
+			"WHERE"
+		],
+		"description": "Simple Select with Where"
+	}
+}
