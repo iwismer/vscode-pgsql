@@ -30,5 +30,18 @@
             "$$ LANGUAGE SQL;"
 		],
 		"description": "Simple PL/PGSQL Function"
+	},
+    
+	"Create Table": {
+		"prefix": "tablepgsql",
+		"body": [
+			"CREATE TABLE ${tableName} (",
+            "\tid serial,",
+            "\tname text,",
+            "\tquantity integer,",
+            "\tCONSTRAINT pk_${tableName} PRIMARY KEY(id)",
+            ");"
+		],
+		"description": "Create Postgres Table"
 	}
 }

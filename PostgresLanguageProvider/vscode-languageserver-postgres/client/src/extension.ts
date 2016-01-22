@@ -7,6 +7,7 @@
 import * as path from 'path';
 import PostgresqlCompletionItemProvider from './features/completionProvider';
 import PostgresqlSignatureHelpProvider from './features/signatureHelpProvider';
+import PostgresqlCommandProvider from './features/commandProvider';
 
 import * as vscode from 'vscode';
 import { workspace, Disposable, ExtensionContext } from 'vscode';
@@ -44,10 +45,17 @@ export function activate(context: ExtensionContext) {
 	// Push the disposable to the context's subscriptions so that the 
 	// client can be deactivated on extension deactivation 
     
+	let validator = new PostgresqlCommandProvider();
+	validator.activate(context.subscriptions);
+    
+	context.subscriptions.push(vscode.commands.registerCommand('postgres.executeSql', () => {
+		validator.execFile();
+	}));
+
    	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(['pgsql'], new PostgresqlCompletionItemProvider(), '.', ' ')); 
 	context.subscriptions.push(vscode.languages.registerSignatureHelpProvider('pgsql', new PostgresqlSignatureHelpProvider(), '(', ','));
 
 	context.subscriptions.push(disposable);
     
-    PostgresqlCompletionItemProvider
+    
 }

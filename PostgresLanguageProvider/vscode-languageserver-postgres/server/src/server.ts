@@ -43,7 +43,7 @@ connection.onInitialize((params): InitializeResult => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
-	validateTextDocument(change.document);
+	//validateTextDocument(change.document);
 });
 
 // The settings interface describe the server relevant settings part
@@ -62,10 +62,10 @@ let maxNumberOfProblems: number;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
-	let settings = <Settings>change.settings;
-	maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100;
+	//let settings = <Settings>change.settings;
+	//maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100;
 	// Revalidate any open text documents
-	documents.all().forEach(validateTextDocument);
+	//documents.all().forEach(validateTextDocument);
 });
 
 function validateTextDocument(textDocument: ITextDocument): void {
@@ -93,7 +93,7 @@ function validateTextDocument(textDocument: ITextDocument): void {
 
 connection.onDidChangeWatchedFiles((change) => {
 	// Monitored files have change in VSCode
-	connection.console.log('We recevied an file change event');
+	//connection.console.log('We recevied an file change event');
 });
 
 //Math.pow(3,1);
@@ -130,18 +130,8 @@ function handleOnCompletion(textDocumentPosition: TextDocumentIdentifier) : Comp
 	]
 }
 
-// This handler resolve additional information for the item selected in
-// the completion list.
-connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
-	if (item.data === 1) {
-		item.detail = 'TypeScript details',
-		item.documentation = 'TypeScript documentation'
-	} else if (item.data === 2) {
-		item.detail = 'JavaScript details',
-		item.documentation = 'JavaScript documentation'
-	}
-	return item;
-});
+
+
 
 /*
 connection.onDidOpenTextDocument((params) => {

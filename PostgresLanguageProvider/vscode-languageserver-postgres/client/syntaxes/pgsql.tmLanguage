@@ -175,7 +175,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(immutable|volatile|stable|serial|primary|key|references|comment|column|schema|authorization|get|diagnostics|returning|drop|all|raise|notice|warning|exception|external|security|definer|language|grant|execute|on|to|function|procedure|returns|end|then|deterministic|exception|when|others|subtype|constant|range|binary_integer|declare|begin|in|out|is|as|exit|open|fetch|into|close|type|rowtype|default|\.(extend|count|first|last|next|nextval|currval)|cost|alter|owner)\b</string>
+			<string>(?i)\b(CONSTRAINT|FOREIGN|immutable|volatile|stable|serial|primary|key|references|comment|column|schema|authorization|get|diagnostics|returning|drop|all|raise|notice|warning|exception|external|security|definer|language|grant|execute|on|to|function|procedure|returns|end|then|deterministic|exception|when|others|subtype|constant|range|binary_integer|declare|begin|in|out|is|as|exit|open|fetch|into|close|type|rowtype|default|\.(extend|count|first|last|next|nextval|currval)|cost|alter|owner)\b</string>
 			<key>name</key>
 			<string>keyword.other.postgres</string>
 		</dict>

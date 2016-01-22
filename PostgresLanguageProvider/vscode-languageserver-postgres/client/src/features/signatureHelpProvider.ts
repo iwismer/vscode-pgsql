@@ -176,7 +176,7 @@ export class FunctionsInfoDb
                     signatureInfo.parameters.push({ label: paramsList[paramIdx].trim(), documentation: ''});
                 }
             }
-            console.log(funcName);
+            //console.log(funcName);
             this.funcSignatures[funcName] = signatureInfo;
         }
     }
