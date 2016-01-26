@@ -13,14 +13,14 @@ export default class PostgresqlCommandProvider  {
     public activate(subscriptions: vscode.Disposable[]) {
         this.executable = "psql";
 		vscode.workspace.onDidChangeConfiguration(this.loadConfiguration, this, subscriptions);
-		vscode.workspace.onDidOpenTextDocument(this.changeCurrFile, this, subscriptions);
+		//vscode.workspace.onDidOpenTextDocument(this.changeCurrFile, this, subscriptions);
 		this.loadConfiguration();
 
 	}
     
     public changeCurrFile(newDoc: vscode.TextDocument):void
     {
-        this.currPath = newDoc.fileName;
+        //this.currPath = newDoc.fileName;
     }
     public loadConfiguration():void
     {
@@ -34,14 +34,21 @@ export default class PostgresqlCommandProvider  {
     
     public execFile():void
     {
-        if(false 
-            && this.hostName != null 
+        if( 
+            this.hostName != null 
             && this.username != null
             && this.dbName != null
         )
         {
-            let args =[ "-d", this.dbName, "-U", this.username, "-h", this.hostName,"-f", this.currPath];
-            let childProcess = cp.spawn(this.executable, args, null);
+            let editor = vscode.window.activeTextEditor;
+            if (!editor) {
+                return; // No open text editor
+            }
+            let currDocPath = editor.document.fileName;
+            let args =[ "-d", this.dbName, "-U", this.username, "-h", this.hostName,"-f", currDocPath];
+            let childProcess = cp.spawn(this.executable, args);
+            
+
 			childProcess.on('error', (error: Error) => {
 				
 				let message: string = null;
@@ -56,9 +63,9 @@ export default class PostgresqlCommandProvider  {
 			if (childProcess.pid) {
 				
                 
-				childProcess.stdout.on('data', (data: Buffer) => {
-					console.log(data);
-				});
+				childProcess.stdout.on('data', (data) => {
+                    console.log(`stdout: ${data}`);
+                });
 				childProcess.stdout.on('end', () => {
 					
                     
