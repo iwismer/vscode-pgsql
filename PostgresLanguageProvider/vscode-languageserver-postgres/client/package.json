@@ -1,12 +1,12 @@
 {
 	"name": "postgresql",
 	"description": "postgresql VSCode part of a language server",
-	"author": "Microsoft Corporation",
+	"author": "JPTarquino",
 	"license": "MIT",
-	"version": "0.0.1",
-	"publisher": "vscode",
+	"version": "0.0.2",
+	"publisher": "JPTarquino",
 	"engines": {
-		"vscode": "0.10.x"
+		"vscode":  "^0.10.1"
 	},
 	"categories": [
 		"Other"

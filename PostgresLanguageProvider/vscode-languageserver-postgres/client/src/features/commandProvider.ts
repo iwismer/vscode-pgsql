@@ -1,6 +1,8 @@
 
 import * as vscode from 'vscode';
 import * as cp from 'child_process';
+import LineDecoder from './lineDecoder';
+
 
 export default class PostgresqlCommandProvider  {
     
@@ -62,12 +64,17 @@ export default class PostgresqlCommandProvider  {
 			});
 			if (childProcess.pid) {
 				
-                
+				let outChannel = vscode.window.createOutputChannel("psqlOutput");
+			     let decoder = new LineDecoder();
+                outChannel.show(vscode.ViewColumn.Two);
 				childProcess.stdout.on('data', (data) => {
-                    console.log(`stdout: ${data}`);
+                    decoder.write(data).forEach(function (line:string)
+                    {
+                        outChannel.appendLine(line);
+                    });
                 });
 				childProcess.stdout.on('end', () => {
-					
+                    outChannel.appendLine('psql finished running');
                     
 				});
 			} else {
