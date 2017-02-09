@@ -8,6 +8,9 @@ This extension is fixed [clone](https://github.com/jptarqu/VSCodeExtension-Postg
 - Completion Lists for global postgres functions (copied from the Postgres official documentation)
 - Snippets
 
+![example](images/example.gif)
+
+
 ## Fixes
 - use connection string with port and password
 - add stderr output ( thanks for [khushboo shah](https://marketplace.visualstudio.com/items?itemName=JPTarquino.postgresql) )

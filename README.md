@@ -8,9 +8,12 @@ This extension is fixed [clone](https://github.com/jptarqu/VSCodeExtension-Postg
 - Completion Lists for global postgres functions (copied from the Postgres official documentation)
 - Snippets
 
+![example](images/example.gif)
+
+
 ## Fixes
 - use connection string with port and password
-- add stderr output ( thanks for [khushboo shah](https://marketplace.visualstudio.com/items?itemName=JPTarquino.postgresql)
+- add stderr output ( thanks for [khushboo shah](https://marketplace.visualstudio.com/items?itemName=JPTarquino.postgresql) )
 - shorter command 
 
 The extension recognizes the .sql,.ddl,.dml,.pgsql extension as sql files intended to be run in Postgres.
