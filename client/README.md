@@ -8,8 +8,7 @@ This extension is fixed [clone](https://github.com/jptarqu/VSCodeExtension-Postg
 - Completion Lists for global postgres functions (copied from the Postgres official documentation)
 - Snippets
 
-![example](images/example.gif)
-
+<img src="https://raw.githubusercontent.com/doublefint/vscode-pgsql/master/client/images/example.gif" alt="demo" style="width:480px;"/>
 
 ## Fixes
 - use connection string with port and password

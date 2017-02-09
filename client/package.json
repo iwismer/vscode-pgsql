@@ -2,7 +2,7 @@
   "name": "pgsql",
   "description": "postgres language support, snippets, runner. Fixed clone of postgresql@0.0.2 by JPTarquino",
   "license": "MIT",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "doublefint",
   "engines": { "vscode": "^0.10.1" },
   "icon": "images/logo.png",
