@@ -1,47 +1,43 @@
 {
-    
-	"Select simple": {
-		"prefix": "sel",
+	"Select Statement": {
+		"prefix": "pgsql",
 		"body": [
-			"SELECT ${tableName}.",
-			"FROM ${tableName}",
-			"WHERE"
+			"Select * ",
+			  "From ${tableName}",
+			 "Where 1=1 And id = ? ",
+			 ";"
 		],
-		"description": "Simple Select with Where"
+		"description": "Insert 'Select * From ... Where ... ' statement"
 	},
-    
-	"PL/PGSQL Function": {
-		"prefix": "funcplpg",
+   
+	"Create Function": {
+		"prefix": "pgsql",
 		"body": [
-			"CREATE OR REPLACE FUNCTION ${funcName}(i integer) RETURNS integer AS $$",
-            "BEGIN",
-            "\tRETURN i + 1;",
-            "END;",
-            "$$ LANGUAGE plpgsql;"
+			"Create Or Replace Function ${funcName}( data json ) Returns json As $$",
+			"\tDeclare",
+			"\t\t-- declare variables",
+			"\t\t-- for example: id int := Cast( data->>'id' as int ); ",
+            "Begin",
+			"\t\t --do something useful",
+            "\tReturn '{}';",
+            "End;",
+            "$$ language plpgsql;"
 		],
-		"description": "Simple PL/PGSQL Function"
-	},
-    
-	"SQL Function": {
-		"prefix": "funcplpg",
-		"body": [
-			"CREATE OR REPLACE FUNCTION ${funcName}(i integer) RETURNS integer AS $$",
-            "\tSELECT $1, CAST($1 AS text) || ' is text' ",
-            "$$ LANGUAGE SQL;"
-		],
-		"description": "Simple PL/PGSQL Function"
+		"description": "Insert 'Create Or Replace Function ...' statement"
 	},
     
 	"Create Table": {
-		"prefix": "tablepgsql",
+		"prefix": "pgsql",
 		"body": [
-			"CREATE TABLE ${tableName} (",
-            "\tid serial,",
-            "\tname text,",
-            "\tquantity integer,",
-            "\tCONSTRAINT pk_${tableName} PRIMARY KEY(id)",
-            ");"
-		],
-		"description": "Create Postgres Table"
+			"Create Table ${tableName} (",
+            "\tid serial primary key,",
+			"\tcd text not null,",
+            "\tnm text,",
+			"\t--ref int references another.table,",
+            "\tcreated timestamptz default now()",
+            ");",
+			"Create Index on ${tableName} (cd);"
+		], 
+		"description": "Insert 'Create Table ...' statement"
 	}
 }

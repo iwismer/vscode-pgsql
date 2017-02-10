@@ -1,6 +1,6 @@
 
-import * as vscode from 'vscode';
-import * as ChPr from 'child_process';
+import { window, workspace, ViewColumn, OutputChannel, Disposable } from 'vscode';
+import * as ChildProcess from 'child_process';
 import LineDecoder from './lineDecoder';
 
 
@@ -8,17 +8,17 @@ export default class pgsqlCommandProvider  {
     
     private executable :string = 'psql'
     private connection :string
-    private outChannel : vscode.OutputChannel;
+    private outChannel : OutputChannel;
     
-    public activate(subscriptions: vscode.Disposable[]) {
+    public activate(subscriptions: Disposable[]) {
         let cp = this
-        cp.outChannel = vscode.window.createOutputChannel("pgsql")
-        vscode.workspace.onDidChangeConfiguration( cp.loadConfiguration, cp, subscriptions )
+        cp.outChannel = window.createOutputChannel("pgsql")
+        workspace.onDidChangeConfiguration( cp.loadConfiguration, cp, subscriptions )
 		cp.loadConfiguration()
 	}
     
     public loadConfiguration():void  {
-        let section = vscode.workspace.getConfiguration('pgsql')
+        let section = workspace.getConfiguration('pgsql')
 		if (section) {
 			this.connection = section.get<string>('connection', null)
 		}
@@ -26,54 +26,83 @@ export default class pgsqlCommandProvider  {
 
     public run():void {
 
-        let cpv = this // [c]ommand [p]ro[v]ider
+        if ( !window.activeTextEditor ) return // No open text editor
+
+        let doc = window.activeTextEditor.document
+
+        // if doc never saved before
+        // vscode change editor after save
+        if ( doc.isUntitled ) { 
+           
+           window.showInformationMessage( 'pgsql: Please, save document and press Ctrl+F5 again' )
+           return  
+        } 
+
+        let pgsql = this 
         
-        let editor = vscode.window.activeTextEditor
+        // file already have real filename, just run it via psql
+        if ( !doc.isDirty ) return pgsql.runFile( doc.fileName )
         
-        if ( !editor ) return // No open text editor
+        // file was changed (dirty), save it andthen
+        doc.save().then( ( saved: boolean ) => {
+            if ( !saved ) return
+            pgsql.runFile( doc.fileName )
+        }, e => {
+            console.log( 'pgsql: doc.save() rejected' )
+        })
         
-        let args = [  
-            "-d", cpv.connection,
-            "-f", editor.document.fileName
-        ]
+    }
+
+    public runFile( fileName: string ): void {
+
+        let pgsql = this,
+            args = [  
+                "-d", pgsql.connection,
+                "-f", fileName
+            ]
         
-        let childProcess = ChPr.spawn( cpv.executable, args )
-        args.unshift( cpv.executable )
-        console.log( args.join(" ") )
+        let cp = ChildProcess.spawn( pgsql.executable, args )
+
+        //args.unshift( pgsql.executable )
+        //console.log( args.join(" ") )
         
-        childProcess.on('error', ( err: Error ) => {
+        cp.on( 'error', ( err: Error ) => {
             
             let ecode: string = (<any>err).code 
-            let message: string = err.message || `Failed to run: ${cpv.executable} ${args.join(' ')}. ${ecode}.`
+            let defmsg = `Failed to run: ${pgsql.executable} ${args.join(' ')}. ${ecode}.`
+            let message: string = err.message || defmsg
             
             if ((<any>err).code === 'ENOENT') {
                 message = `The 'psql' program was not found. Please ensure the 'psql' is in your Path`
             } 
-            vscode.window.showInformationMessage( message )
+            window.showInformationMessage( message )
             
         });
 
-        if (childProcess.pid) {
-            
-            let decoder = new LineDecoder()
-            cpv.outChannel.show( vscode.ViewColumn.Two )
-            
-            childProcess.stdout.on('data', (data) => {
-                decoder.write(data).forEach( function (line:string) {
-                    cpv.outChannel.appendLine( line )
-                })
+        pgsql.outChannel.show( ViewColumn.Two )
+        
+        if ( !cp.pid ){
+            return pgsql.outChannel.appendLine( 'pgsql: can\'t spawn child proceess' )    
+        }
+          
+        let decoder = new LineDecoder()
+        pgsql.outChannel.show( ViewColumn.Two )
+        
+        cp.stdout.on('data', (data) => {
+            decoder.write(data).forEach( function (line:string) {
+                pgsql.outChannel.appendLine( line )
             })
-            
-            childProcess.stderr.on('data', ( data ) => {
-                decoder.write( data ).forEach( function (line:string) {
-                    cpv.outChannel.appendLine( line )
-                })
+        })
+        
+        cp.stderr.on('data', ( data ) => {
+            decoder.write( data ).forEach( function (line:string) {
+                pgsql.outChannel.appendLine( line )
             })
+        })
 
-            childProcess.stdout.on('end', () => {
-                cpv.outChannel.appendLine('pgsql executed.')
-            })
+        cp.stdout.on('end', () => {
+            pgsql.outChannel.appendLine('pgsql end.')
+        })
 
-        } 
     }
 }
