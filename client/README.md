@@ -26,6 +26,11 @@ The extension recognizes the \*.sql, \*.ddl, \*.dml, \*.pgsql extension as sql f
 
 ## Release Notes
 
+### 0.0.8
+- run only selected text in large pgsql files - just select and press Ctrl+F5
+    or execute whole file if you don't have selection
+- create temporary file instead autosave changed pgsql file before execution
+
 ### 0.0.7
 - run pgsql files - press Ctrl+F5 
 - autosave changed pgsql file before run

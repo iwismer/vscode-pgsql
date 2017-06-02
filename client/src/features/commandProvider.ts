@@ -2,7 +2,8 @@
 import { window, workspace, ViewColumn, OutputChannel, Disposable } from 'vscode';
 import * as ChildProcess from 'child_process';
 import LineDecoder from './lineDecoder';
-
+import * as fs from 'fs';
+import * as path from 'path';
 
 export default class pgsqlCommandProvider  {
     
@@ -26,43 +27,64 @@ export default class pgsqlCommandProvider  {
 
     public run():void {
 
-        if ( !window.activeTextEditor ) return // No open text editor
-
-        let doc = window.activeTextEditor.document
-
-        // if doc never saved before
-        // vscode change editor after save
-        if ( doc.isUntitled ) { 
-           
-           window.showInformationMessage( 'pgsql: Please, save document and press Ctrl+F5 again' )
-           return  
-        } 
-
-        let pgsql = this 
+        const editor = window.activeTextEditor
+        if ( !editor ) return // No any open text editor
         
+        const doc = editor.document
+        const seltext = doc.getText( editor.selection )
+        const text = seltext ? seltext : doc.getText()
+        const pgsql = this
+
         // file already have real filename, just run it via psql
         if ( !doc.isDirty ) return pgsql.runFile( doc.fileName )
         
-        // file was changed (dirty), save it andthen
-        doc.save().then( ( saved: boolean ) => {
-            if ( !saved ) return
-            pgsql.runFile( doc.fileName )
-        }, e => {
-            console.log( 'pgsql: doc.save() rejected' )
-        })
+        // in any others cases, for example if ( doc.isUntitled ) 
+        pgsql.runText( text )
+        
         
     }
+    
+    // Create temporary file with given text and execute it via psql
+    public runText( text: string ): void {
+        
+        const pgsql = this
+        const rootPath = workspace.rootPath ? workspace.rootPath : __dirname
+        const uniqName = path.join( rootPath, ( Date.now() - 0 ) + '.pgsql' )
+        
+        fs.writeFile( uniqName, text, ( err ) => {
+            
+           if ( err ) {
+               return pgsql.outChannel.appendLine( 'Can\'t create temporary file: ' + uniqName )
+           }
+            
+           const cb = () => fs.unlink( uniqName, ( err ) => { 
+                if ( err ){
+                    pgsql.outChannel.appendLine( 'Can\'t delete temporary file: ' + uniqName ) 
+                }
+           })
+           
+            pgsql.runFile( uniqName, cb )
 
-    public runFile( fileName: string ): void {
+        })
 
+    }
+
+    public runFile( fileName: string, cb?: Function ): void {
+        
         let pgsql = this,
             args = [  
                 "-d", pgsql.connection,
                 "-f", fileName
             ]
-        
+
+        pgsql.outChannel.show( ViewColumn.Two )
+
         let cp = ChildProcess.spawn( pgsql.executable, args )
 
+        if ( !cp.pid ){
+            return pgsql.outChannel.appendLine( 'pgsql: can\'t spawn child proceess' )    
+        }
+        
         //args.unshift( pgsql.executable )
         //console.log( args.join(" ") )
         
@@ -76,14 +98,10 @@ export default class pgsqlCommandProvider  {
                 message = `The 'psql' program was not found. Please ensure the 'psql' is in your Path`
             } 
             window.showInformationMessage( message )
-            
+            if ( cb ) cb()
         });
 
-        pgsql.outChannel.show( ViewColumn.Two )
         
-        if ( !cp.pid ){
-            return pgsql.outChannel.appendLine( 'pgsql: can\'t spawn child proceess' )    
-        }
           
         let decoder = new LineDecoder()
         pgsql.outChannel.show( ViewColumn.Two )
@@ -102,6 +120,7 @@ export default class pgsqlCommandProvider  {
 
         cp.stdout.on('end', () => {
             pgsql.outChannel.appendLine('pgsql end.')
+            if ( cb ) cb()
         })
 
     }
