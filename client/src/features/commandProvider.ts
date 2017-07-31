@@ -82,7 +82,7 @@ export default class pgsqlCommandProvider  {
         let cp = ChildProcess.spawn( pgsql.executable, args )
 
         if ( !cp.pid ){
-            return pgsql.outChannel.appendLine( 'pgsql: can\'t spawn child proceess' )    
+            return pgsql.outChannel.appendLine( 'pgsql: can\'t spawn child process' )    
         }
         
         //args.unshift( pgsql.executable )
