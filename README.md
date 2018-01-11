@@ -10,7 +10,7 @@ This extension is fixed clone of [postgresql](https://marketplace.visualstudio.c
 
 The extension recognizes the \*.sql, \*.ddl, \*.dml, \*.pgsql extension as sql files intended to be run in Postgres
 
-<img src="https://raw.githubusercontent.com/doublefint/vscode-pgsql/master/client/images/example.gif" alt="demo" style="width:480px;"/>
+<img src="https://raw.githubusercontent.com/doublefint/vscode-pgsql/master/images/example.gif" alt="demo" style="width:480px;"/>
 
 ## Usage
 
