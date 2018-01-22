@@ -3,6 +3,13 @@ All notable changes to the "vscode-pgsql" extension will be documented in this f
 
 ## [Unreleased]
 
+## 0.1.0
+### Changed
+- Signature loaded from Postgres 9.5
+### Fixed
+- Signature completion for multiline scenario
+- Restore snippets
+
 ## 0.0.9
 ### Fixed
 - Signature completion

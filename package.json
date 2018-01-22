@@ -2,7 +2,7 @@
     "name": "pgsql",
     "description": "run sql in your postgres instance",
     "license": "MIT",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "publisher": "doublefint",
     "engines": {
         "vscode": "^1.19.0"
@@ -68,7 +68,8 @@
                     "description": "connection string to your postgres db"
                 }
             }
-        }
+        },
+        "snippets": [ { "language": "pgsql", "path": "./extension/snippets.json" } ]
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",
