@@ -7,7 +7,8 @@ function runFile ( { conn, file, channel, onEnd }) {
 
     const args = [
         "-d", conn,
-        "-f", file
+        "-f", file,
+        "-e"
     ];
 
     const psql = 'psql'
@@ -30,6 +31,9 @@ function runFile ( { conn, file, channel, onEnd }) {
 
     channel.show( vscode.ViewColumn.Two )
     bgtask.stdout.setEncoding('utf8')
+    var dt = new Date();
+    var utcDate = dt.toUTCString();
+    channel.appendLine(`---------  ${utcDate}  ---------`)
 
     const toChannel = data => {
         const str = data.toString(), lines = str.match( /[^\r\n]+/g )
@@ -42,7 +46,7 @@ function runFile ( { conn, file, channel, onEnd }) {
     onEnd = onEnd ? onEnd : ()=>{}
 
     bgtask.stdout.on( 'end', () => {
-        channel.appendLine( `${psql} end.` )
+        channel.appendLine( `${psql} end.\n` )
         onEnd()
     })
 
