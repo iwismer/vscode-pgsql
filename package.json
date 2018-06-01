@@ -2,7 +2,7 @@
     "name": "pgsql",
     "description": "run sql in your postgres instance",
     "license": "MIT",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "doublefint",
     "engines": {
         "vscode": "^1.19.0"
@@ -66,7 +66,18 @@
                     "type": "string",
                     "default": "postgres://username:pasword@localhost:5432/dbname",
                     "description": "connection string to your postgres db"
+                },
+                "pgsql.completion.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "enable or disable code completion"
+                },
+                "pgsql.signatureHelp.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "enable or disable code completion"
                 }
+
             }
         },
         "snippets": [ { "language": "pgsql", "path": "./extension/snippets.json" } ]

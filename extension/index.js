@@ -10,12 +10,20 @@ exports.activate = context => {
     let disposable = vscode.commands.registerCommand( 'pgsql.run', cmd.run )
     context.subscriptions.push( disposable )
 
-    const doctype = 'pgsql'
-    disposable = vscode.languages.registerCompletionItemProvider( doctype, completion, " " )
-    context.subscriptions.push( disposable )
+    const scheme = 'file', language = 'pgsql' // see https://go.microsoft.com/fwlink/?linkid=872305
+    const completionConfig = vscode.workspace.getConfiguration( "pgsql.completion" )
+ 
+    if ( completionConfig.get( 'enabled' ) ) {
+        disposable = vscode.languages.registerCompletionItemProvider( { scheme, language }, completion, "" )
+        context.subscriptions.push( disposable )
+    }
 
-    disposable = vscode.languages.registerSignatureHelpProvider( doctype, signature, '(', ',' )
-    context.subscriptions.push( disposable )
+    const signatureHelpConfig = vscode.workspace.getConfiguration( "pgsql.signatureHelp" )
+    if ( signatureHelpConfig.get( 'enabled' ) ) {
+        disposable = vscode.languages.registerSignatureHelpProvider( { scheme, language }, signature, '(', ',' )
+        context.subscriptions.push( disposable )
+    }
+
 
 }
 

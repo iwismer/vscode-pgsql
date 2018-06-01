@@ -3,6 +3,11 @@ All notable changes to the "vscode-pgsql" extension will be documented in this f
 
 ## [Unreleased]
 
+## 0.1.1
+### Added
+- option to enable/disable code completion, reload required
+- option to enable/disable signature help, reload required
+
 ## 0.1.0
 ### Changed
 - Signature loaded from Postgres 9.5
