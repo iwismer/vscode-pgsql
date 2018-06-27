@@ -145,13 +145,13 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(sysdate|%(isopen|found|notfound|rowcount)|commit|rollback|sqlerrm|substr|cast|decode|length|lower|upper|coalesce)\b</string>
+			<string>(?i)\b(sysdate|%(isopen|found|notfound|rowcount)|commit|rollback|sqlerrm|substr|cast|decode|length|lower|upper|coalesce|crosstab)\b</string>
 			<key>name</key>
 			<string>support.function.postgres</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(json_agg|avg|count|sum|max|min|nvl|trim|to_date|to_char|lpad|ltrim|rpad|rtrim|trunc|to_number|regexp_split_to_array|regexp_replace)\b</string>
+			<string>(?i)\b(json_agg|avg|count|sum|max|min|nvl|trim|to_date|to_char|lpad|ltrim|rpad|rtrim|trunc|to_number|regexp_split_to_array|regexp_replace|unnest|string_agg)\b</string>
 			<key>name</key>
 			<string>keyword.function.builtin.postgres</string>
 		</dict>
@@ -181,7 +181,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(select|perform|from|where|order\s+by|group\s+by|asc|desc|update|set|insert|into|values|delete|from|distinct|union|having|limit|table|of|prepare|(inner|left|outer) join)\b</string>
+			<string>(?i)\b(unique|view|join|cascade|select|perform|from|where|order\s+by|group\s+by|asc|desc|update|set|insert|into|values|delete|from|distinct|union|having|limit|table|of|prepare|(inner|left|outer|full) join)\b</string>
 			<key>name</key>
 			<string>keyword.other.sql.postgres</string>
 		</dict>
@@ -221,7 +221,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(number|integer|bigint|varchar2|varchar|boolean|date|setof|record|query|numeric|void|character varying|text|([-a-z0-9_.]+%(row)?type))\b</string>
+			<string>(?i)\b(float|int|number|integer|bigint|varchar2|varchar|boolean|date|setof|record|query|numeric|void|character varying|text|([-a-z0-9_.]+%(row)?type))\b</string>
 			<key>name</key>
 			<string>storage.type.postgres</string>
 		</dict>
