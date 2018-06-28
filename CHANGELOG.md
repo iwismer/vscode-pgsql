@@ -3,6 +3,10 @@ All notable changes to the "vscode-pgsql" extension will be documented in this f
 
 ## [Unreleased]
 
+## 0.1.3
+### Added
+- Few keywords for syntax
+
 ## 0.1.2
 ### Added
 - few types to completion dictionary
