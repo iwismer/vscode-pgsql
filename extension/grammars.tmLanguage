@@ -133,7 +133,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(if|elsif|else|end\s+if|loop|end\s+loop|for|foreach|array|case|end\s+case|continue|return|goto|alias)\b</string>
+			<string>(?i)\b(if|elsif|else|end\s+if|loop|end\s+loop|for (each (row)?)?|foreach|array|case|end\s+case|continue|return|goto|alias)\b</string>
 			<key>name</key>
 			<string>keyword.control.postgres</string>
 		</dict>
@@ -151,7 +151,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(json_agg|avg|count|sum|max|min|nvl|trim|to_date|to_char|lpad|ltrim|rpad|rtrim|trunc|to_number|regexp_split_to_array|regexp_replace|unnest|string_agg)\b</string>
+			<string>(?i)\b(row_number|json_agg|avg|count|sum|max|min|nvl|trim|to_date|to_char|lpad|ltrim|rpad|rtrim|trunc|to_number|regexp_split_to_array|regexp_replace|unnest|string_agg)\b</string>
 			<key>name</key>
 			<string>keyword.function.builtin.postgres</string>
 		</dict>
@@ -175,13 +175,13 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(CONSTRAINT|FOREIGN|immutable|volatile|stable|serial|primary|key|references|comment|column|schema|authorization|get|diagnostics|returning|drop|all|raise|notice|warning|exception|external|security|definer|language|grant|execute|on|to|function|procedure|returns|end|then|deterministic|exception|when|others|subtype|constant|range|binary_integer|declare|begin|in|out|is|as|exit|open|fetch|into|close|type|rowtype|default|\.(extend|count|first|last|next|nextval|currval)|cost|alter|owner)\b</string>
+			<string>(?i)\b(refresh|before|new|CONSTRAINT|FOREIGN|immutable|volatile|stable|serial|primary|key|references|comment|column|schema|authorization|get|diagnostics|returning|drop|all|raise|notice|warning|exception|external|security|definer|language|grant|execute|on|to|function|procedure|returns|end|then|deterministic|exception|when|others|subtype|constant|range|binary_integer|declare|begin|in|out|is|as|exit|open|fetch|into|close|type|rowtype|default|\.(extend|count|first|last|next|nextval|currval)|cost|alter|owner)\b</string>
 			<key>name</key>
 			<string>keyword.other.postgres</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(database|encoding|with|extension|copy|connection|after|each|row|trigger|unique|view|join|cascade|select|perform|from|where|order\s+by|group\s+by|asc|desc|update|set|insert|into|values|delete|from|distinct|union|having|limit|table|of|prepare|(inner|left|outer|full) join)\b</string>
+			<string>(?i)\b(over|using|add|index|database|encoding|with|extension|copy|connection|after|trigger|unique|(materialized )?view|join|cascade|select|perform|from|where|partition\s+by|order\s+by|group\s+by|asc|desc|update|set|insert|into|values|delete|from|distinct|union|having|limit|table|of|prepare|(inner|left|outer|full) join)\b</string>
 			<key>name</key>
 			<string>keyword.other.sql.postgres</string>
 		</dict>
