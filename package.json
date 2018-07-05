@@ -2,7 +2,7 @@
     "name": "pgsql",
     "description": "run sql in your postgres instance",
     "license": "MIT",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "publisher": "doublefint",
     "engines": {
         "vscode": "^1.19.0"
